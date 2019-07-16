@@ -133,6 +133,7 @@ function Get-Foo {
         $notifications = Get-LspNotification -Client $client | Where-Object {
             $_.Params.uri -match ([System.IO.Path]::GetFileName($file.PSPath))
         }
+
         $notifications | Should -Not -BeNullOrEmpty
         $notifications.Params.diagnostics | Should -Not -BeNullOrEmpty
         $notifications.Params.diagnostics.Count | Should -Be 1
