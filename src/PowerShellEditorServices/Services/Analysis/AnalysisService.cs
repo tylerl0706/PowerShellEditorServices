@@ -190,6 +190,7 @@ namespace Microsoft.PowerShell.EditorServices.Services
         /// <returns>The text of the formatted PowerShell script.</returns>
         public Task<string> FormatAsync(string scriptFileContents, Hashtable formatSettings, int[] formatRange = null)
         {
+            _logger.LogDebug("INSIDE ANALYSISSERVICE.FORMATASYNC");
             EnsureEngineSettingsCurrent();
 
             if (AnalysisEngine == null)
@@ -273,6 +274,7 @@ namespace Microsoft.PowerShell.EditorServices.Services
             {
                 InitializeAnalysisEngineToCurrentSettings();
             }
+            _logger.LogDebug("INSIDE EnsureEngineSettingsCurrent");
         }
 
         private void InitializeAnalysisEngineToCurrentSettings()
