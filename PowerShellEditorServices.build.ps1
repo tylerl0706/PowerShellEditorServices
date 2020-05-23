@@ -243,7 +243,7 @@ function DotNetTestFilter {
     if ($TestFilter) { @("--filter",$TestFilter) } else { "" }
 }
 
-task Test TestServer,TestE2E
+task Test TestServer
 
 task TestServer {
     Set-Location .\test\PowerShellEditorServices.Test\
