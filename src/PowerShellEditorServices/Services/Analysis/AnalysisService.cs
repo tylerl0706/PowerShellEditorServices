@@ -421,7 +421,7 @@ namespace Microsoft.PowerShell.EditorServices.Services
 
             _languageServer.TextDocument.PublishDiagnostics(new PublishDiagnosticsParams
             {
-                Uri = DocumentUri.From(scriptFile.DocumentUri),
+                Uri = scriptFile.DocumentUri,
                 Diagnostics = new Container<Diagnostic>(diagnostics)
             });
         }
@@ -459,10 +459,10 @@ namespace Microsoft.PowerShell.EditorServices.Services
         {
             switch (markerLevel)
             {
-                case ScriptFileMarkerLevel.Error:       return DiagnosticSeverity.Error;
-                case ScriptFileMarkerLevel.Warning:     return DiagnosticSeverity.Warning;
+                case ScriptFileMarkerLevel.Error: return DiagnosticSeverity.Error;
+                case ScriptFileMarkerLevel.Warning: return DiagnosticSeverity.Warning;
                 case ScriptFileMarkerLevel.Information: return DiagnosticSeverity.Information;
-                default:                                return DiagnosticSeverity.Error;
+                default: return DiagnosticSeverity.Error;
             };
         }
 
