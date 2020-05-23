@@ -37,7 +37,7 @@ namespace Microsoft.PowerShell.EditorServices.Handlers
             PowerShellContextService powerShellContextService,
             WorkspaceService workspaceService)
         {
-            _logger = loggerFactory.CreateLogger<SetFunctionBreakpointsHandler>();
+            _logger = loggerFactory.CreateLogger<ConfigurationDoneHandler>();
             _jsonRpcServer = jsonRpcServer;
             _debugService = debugService;
             _debugStateService = debugStateService;
