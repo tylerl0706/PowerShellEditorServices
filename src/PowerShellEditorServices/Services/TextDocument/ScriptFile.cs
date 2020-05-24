@@ -52,11 +52,7 @@ namespace Microsoft.PowerShell.EditorServices.Services.TextDocument
         /// <summary>
         /// Gets the path which the editor client uses to identify this file.
         /// </summary>
-        public string ClientFilePath
-        {
-            get => DocumentUri.GetFileSystemPath();
-            set => DocumentUri = DocumentUri.FromFileSystemPath(value);
-        }
+        public string ClientFilePath => DocumentUri.GetFileSystemPath();
 
         /// <summary>
         /// Gets the file path in LSP DocumentUri form.  The ClientPath property must not be null.
@@ -162,7 +158,7 @@ namespace Microsoft.PowerShell.EditorServices.Services.TextDocument
             this.FilePath = fileUri.IsFile
                 ? fileUri.LocalPath
                 : fileUri.OriginalString;
-            this.ClientFilePath = fileUri.OriginalString;
+            this.DocumentUri = DocumentUri.FromFileSystemPath(FilePath);
             this.IsAnalysisEnabled = true;
             this.IsInMemory = !fileUri.IsFile;
             this.powerShellVersion = powerShellVersion;
