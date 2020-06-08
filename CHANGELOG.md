@@ -1,5 +1,11 @@
 # PowerShell Editor Services Release History
 
+## v2.2.0-preview.4
+### Monday, June 08, 2020
+
+- [PowerShellEditorServices #1304](https://github.com/PowerShell/PowerShellEditorServices/pull/1304) -
+  Use From instead of FromFileSystem.
+
 ## v2.0.0-preview.8
 ### Monday, January 13, 2020
 
