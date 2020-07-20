@@ -1,5 +1,9 @@
 # PowerShell Editor Services Release History
 
+## v2.3.0-preview.1
+### Monday, July 20, 2020
+
+
 ## v2.0.0-preview.8
 ### Monday, January 13, 2020
 
