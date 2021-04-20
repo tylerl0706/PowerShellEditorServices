@@ -143,8 +143,6 @@ namespace Microsoft.PowerShell.EditorServices.Services
                 return;
             }
 
-            EnsureEngineSettingsCurrent();
-
             // If there's an existing task, we want to cancel it here;
             var cancellationSource = new CancellationTokenSource();
             CancellationTokenSource oldTaskCancellation = Interlocked.Exchange(ref _diagnosticsCancellationTokenSource, cancellationSource);
@@ -263,11 +261,15 @@ namespace Microsoft.PowerShell.EditorServices.Services
 
         private void EnsureEngineSettingsCurrent()
         {
-            if (_analysisEngineLazy == null
-                    || (_pssaSettingsFilePath != null
-                        && !File.Exists(_pssaSettingsFilePath)))
+            if ((_pssaSettingsFilePath != _configurationService.CurrentSettings.ScriptAnalysis.SettingsPath)
+                || (_pssaSettingsFilePath != null && !File.Exists(_pssaSettingsFilePath)))
             {
                 InitializeAnalysisEngineToCurrentSettings();
+            }
+
+            if (!_analysisEngineLazy.IsValueCreated) {
+                // Force creation
+                var _ = AnalysisEngine;
             }
         }
 
@@ -379,6 +381,13 @@ namespace Microsoft.PowerShell.EditorServices.Services
             // period ends but then starts typing while analysis is going
             // on.  It makes sense to send back the results from the first
             // delay period while the second one is ticking away.
+            EnsureEngineSettingsCurrent();
+
+            if (!_workplaceService.IsTrusted && _workplaceService.IsRelativePath(_pssaSettingsFilePath) && File.Exists(_pssaSettingsFilePath))
+            {
+                _logger.LogInformation("The workspace contains a PSScriptAnalyzer settings file but the workspace is untrusted. Diagnostics will not run until the workspace is trusted.");
+                return;
+            }
 
             foreach (ScriptFile scriptFile in filesToAnalyze)
             {

@@ -47,7 +47,7 @@ namespace Microsoft.PowerShell.EditorServices.Services
         };
 
         // An array of globs which includes everything.
-        private static readonly string[] s_psIncludeAllGlob = new []
+        private static readonly string[] s_psIncludeAllGlob = new[]
         {
             "**/*"
         };
@@ -74,6 +74,11 @@ namespace Microsoft.PowerShell.EditorServices.Services
         /// Gets or sets whether the workspace should follow symlinks in search operations.
         /// </summary>
         public bool FollowSymlinks { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the workspace is trusted.
+        /// </summary>
+        public bool IsTrusted { get; set; }
 
         #endregion
 
@@ -360,6 +365,25 @@ namespace Microsoft.PowerShell.EditorServices.Services
             }
 
             return resolvedPath;
+        }
+
+        /// <summary>
+        /// Gets if a path is relative to the workspace path.
+        /// </summary>
+        /// <param name="filePath">The original full file path.</param>
+        /// <returns>If the path is relatvie to the workspace path.</returns>
+        public bool IsRelativePath(string filePath)
+        {
+            string resolvedPath = filePath;
+
+            if (!string.IsNullOrEmpty(this.WorkspacePath) && !string.IsNullOrEmpty(filePath) && !IsPathInMemory(filePath))
+            {
+                Uri workspaceUri = new Uri(this.WorkspacePath);
+                Uri fileUri = new Uri(filePath);
+
+                return workspaceUri.IsBaseOf(fileUri);
+            }
+            return false;
         }
 
         /// <summary>

@@ -93,12 +93,15 @@ namespace Microsoft.PowerShell.EditorServices.Server
                     .WithHandler<ShowHelpHandler>()
                     .WithHandler<ExpandAliasHandler>()
                     .WithHandler<PsesSemanticTokensHandler>()
+                    .WithHandler<DidTrustWorkspaceHandler>()
                     .OnInitialize(
                         // TODO: Either fix or ignore "method lacks 'await'" warning.
                         async (languageServer, request, cancellationToken) =>
                         {
                             var serviceProvider = languageServer.Services;
                             var workspaceService = serviceProvider.GetService<WorkspaceService>();
+                            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                            var logger = loggerFactory.CreateLogger("InitializeHandler");
 
                             // Grab the workspace path from the parameters
                             if (request.RootUri != null)
@@ -115,6 +118,10 @@ namespace Microsoft.PowerShell.EditorServices.Server
                                     break;
                                 }
                             }
+
+                            // Once the initialize message supports sending the inital Workspace Trust state,
+                            // update this log statement.
+                            logger.LogInformation("Workspace Trust inital value for this workspace: untrusted.");
                         });
             }).ConfigureAwait(false);
 
