@@ -255,7 +255,7 @@ namespace Microsoft.PowerShell.EditorServices.Services
         {
             if (settings.ScriptAnalysis.Enable ?? true)
             {
-                InitializeAnalysisEngineToCurrentSettings();
+                RunScriptDiagnostics(_workplaceService.GetOpenedFiles());
             }
         }
 

@@ -93,7 +93,7 @@ namespace Microsoft.PowerShell.EditorServices.Server
                     .WithHandler<ShowHelpHandler>()
                     .WithHandler<ExpandAliasHandler>()
                     .WithHandler<PsesSemanticTokensHandler>()
-                    .WithHandler<DidTrustWorkspaceHandler>()
+                    .WithHandler<DidGrantWorkspaceTrustHandler>()
                     .OnInitialize(
                         // TODO: Either fix or ignore "method lacks 'await'" warning.
                         async (languageServer, request, cancellationToken) =>
